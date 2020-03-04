@@ -1,0 +1,88 @@
+
+
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=base_ct_ips.html
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=base_ct_ips.htm
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=base_ct_ips2.htm
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=base_ct_ips3.htm
+
+http://data.triviasp.com.ar/files/parte4/base_ct_ips3.htm
+
+
+
+
+http://data.triviasp.com.ar/files/parte4/comb10941-prueba.htm
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=comb10941-prueba.htm
+
+
+
+USANDO EL CSS LLAMADO "TRIVIA.CSS".
+
+Esto es lo que HOY existe.
+
+Versión HTML 5, después de pasar por la aplicación Parche (se ve HTML 4)
+http://data.triviasp.com.ar/files/normasT.asp?archivo=comb10941.html
+http://data.triviasp.com.ar/files/normasT.asp?archivo=coma5659.html
+
+
+Versión HTML 5 puro. 
+http://data.triviasp.com.ar/files/parte4/comb10941.html
+http://data.triviasp.com.ar/files/parte4/coma5659.html
+
+
+Nuevos formatos en HTML 4
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=comb10941-prueba.htm
+http://data.triviasp.com.ar/files/parte4/comb10941-prueba.htm
+
+
+--------------------------------
+
+USANDO EL CSS LLAMADO "IPS_NORMAS.CSS".
+
+Nuevos formatos en HTML 4
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=comb10941-prueba-ips.htm
+http://data.triviasp.com.ar/files/parte4/comb10941-prueba-ips.htm
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=coma5659_bis.htm
+http://data.triviasp.com.ar/files/parte4/coma5659_bis.htm
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=base_ct_ips3.htm
+http://data.triviasp.com.ar/files/parte4/base_ct_ips3.htm
+
+
+
+
+
+"trivia.css".
+"ips_normas.css".
+
+
+Intructivo:
+
+1) Renombrar los archivos de ".html" a ".htm" de la carpeta "parte4"
+2) Editar los archivos a mano, cambiar cabecera de HTML5 a HTML4 (borrar los includes de js)
+3) Actualizar la base de datos. Ej.
+   UPDATE curmateria SET  descripcion = replace(descripcion, ""u2013"", ""-"" )
+4) Actualizar links a .html de las otras carpetas de files
+
+
+
+
+
+
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=aacjsalta1174114.htm
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=coma5654.htm
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=dcorrientes368914.htm
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=aacsjn3214.htm
+http://data.triviasp.com.ar/files/normasT6.asp?archivo=rafip3695.htm
+
+
+http://data.triviasp.com.ar/files/parte4/aacjsalta1174114.htm
+http://data.triviasp.com.ar/files/parte4/coma5654.htm
+http://data.triviasp.com.ar/files/parte4/dcorrientes368914.htm
+
+

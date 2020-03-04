@@ -1,0 +1,17 @@
+#content{
+   nav.navbar{
+       span{
+            font-size: 22px;
+            color:$orange;
+            display: inline-block;
+            font-weight: 900;
+            &:not(.section-name){
+                padding-left: 30px;
+            }
+            .section-name{
+                color: $yellow;
+                text-transform: capitalize;
+            }
+       }
+   } 
+}

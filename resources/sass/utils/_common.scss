@@ -1,0 +1,126 @@
+a {
+    @include transition-default;
+}
+button {
+    outline:none !important;
+    @include transition-default;
+}
+.bg-transparent{
+    background-color: transparent !important;
+}
+.bg-orange{
+    background-color: $orange !important;
+}
+.text-orange{
+    color: $orange !important;
+}
+.bg-trivia{
+    background-color: $trvBlue !important;
+}
+.text-trivia{
+    color: $trvBlue !important;
+}
+.bg-grey{
+    background-color: #ccc !important;
+}
+.bg-lightgrey{
+    background-color: #e9ecef !important;
+}
+.bg-dangerer{
+    background-color: $reder !important;
+}
+.form-control:focus {
+        outline:none !important;
+        border-color:#ced4da !important;
+        box-shadow: none !important
+    }
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    #content{
+        width: 100%;
+        padding: 20px;
+        min-height: 100vh;
+    }
+}
+
+.card{
+    .card-header{
+        .header-title{
+            font-weight: 700;
+        }
+    }
+    .card-footer.border_top{
+        border-top:1px dashed #b6b9bb !important;
+    }
+}
+
+.shadower{
+    @include transition-default;
+    &:hover{
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+}
+form{
+    .form-control{
+        border:none;
+        background-color: #eee;
+        &:focus{
+            background-color: #eee;
+        }
+    }
+    label{
+        font-weight: 600;
+    }
+}
+
+.alert-fixed{
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 25px !important;
+    z-index: 9999;
+}
+
+.shadow-green-left{
+    -webkit-box-shadow: -3px 4px 0px #0f7b3d;
+    box-shadow: -3px 4px 0px #0f7b3d;
+    &:hover{
+        -webkit-box-shadow: 0px 0px 0px #0f7b3d;
+        box-shadow: 0px 0px 0px #0f7b3d;
+    }
+}
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+  margin: 2px 0 3px;
+  padding: 0;
+  list-style-type: none;
+  font-size: 0.9em;
+  line-height: 0.9em;
+  opacity: 0;
+  color: #B94A48;
+
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+}

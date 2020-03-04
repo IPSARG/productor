@@ -1,0 +1,27 @@
+@mixin mobile {  
+    @media (max-width: 815px) 
+    { 
+        @content; 
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 816px) 
+    { 
+        @content; 
+    }
+}
+
+@mixin big-desktop {
+    @media (min-width: 1800px) 
+    { 
+        @content; 
+    }
+}
+
+@mixin transition-default {
+    transition: all 0.20s ease-in-out;
+    -webkit-transition: all .20s ease-in-out;
+    -moz-transition: all .20s ease-in-out;
+    -o-transition: all .20s ease-in-out;
+}
