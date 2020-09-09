@@ -20,7 +20,6 @@ class CheckInUser
     {
         $sit_session = session()->get('sit_session');
         $sitUser = session()->get('sit_user');
-
         if(is_null($sit_session))
         {
             $sitUser = SitUser::where('users.id', $request->user_id)
@@ -29,7 +28,7 @@ class CheckInUser
                     ->whereNotNull('user_activities.session_id')
                     ->where('user_activities.session_id', '=', $request->session_id);
             })->first();
-
+          //  dd($request->all(),1); // esto siempre da falso  y nunca encuentra la session
             if(!is_null($sitUser))
             {
                 if(Carbon::parse($sitUser->last_login)->format('Y-m-d') === Carbon::now()->format('Y-m-d'))
@@ -46,6 +45,7 @@ class CheckInUser
                 return redirect('https://sit.ips.com.ar');
             }
         }
+        // dd($sit_session);
 
         if(!is_null($sit_session) && !is_null($sitUser))
         {

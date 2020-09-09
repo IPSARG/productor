@@ -1,11 +1,11 @@
 <?php
-   Route::any('logout', function () {
-    Auth::logout();
-    return redirect()->action('HomeController@index');
-});
+//    Route::any('logout', function () {
+//     Auth::logout();
+//     return redirect()->action('HomeController@index');
+// });
 
-Route::group(['middleware' => ['auth']], function () {
-
+// Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['CheckInUser']], function () {
     Route::get('/', 'NumericController@index')->name('index');
     Route::any('/TESTING', 'NumericController@TESTING')->name('TESTING');
 
@@ -70,6 +70,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/coeficients', 'CoeController@index')->name('coes');
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
