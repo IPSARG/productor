@@ -1,8 +1,13 @@
 <?php
+   Route::any('logout', function () {
+    Auth::logout();
+    return redirect()->action('HomeController@index');
+});
 
-// Route::group(['middleware' => ['CheckInUser']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', 'NumericController@index')->name('index');
+    Route::any('/TESTING', 'NumericController@TESTING')->name('TESTING');
 
 
     Route::group(['prefix' => 'aplicativos'], function () {
@@ -63,4 +68,8 @@
     });
 
     Route::get('/coeficients', 'CoeController@index')->name('coes');
-// });
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

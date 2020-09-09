@@ -49,7 +49,7 @@ class ThematicController extends Controller
             session()->forget('main_indtem');
             session()->put('main_indtem', $descNodo);
         }
-        
+
         $tematic = new TemIndex();
         $tematics = $tematic->getChild($codNodo);
 
@@ -58,7 +58,7 @@ class ThematicController extends Controller
             Breadcrumb::create($request, $descNodo, $codNodo);
         }
 
-        return view('thematic.index')->with(compact('tematics', 'normTypes', 'temas', 'jurisdictions'));
+        return view('thematic.index')->with(compact('tematics'));
     }
 
     public function getTemChildCoefi(Request $request)
@@ -72,7 +72,7 @@ class ThematicController extends Controller
             session()->forget('main_indtem');
             session()->put('main_indtem', $descNodo);
         }
-        
+
         $tematic = new TemIndex();
         $tematics = $tematic->getChildCoefi($codNodo);
 
@@ -107,13 +107,13 @@ class ThematicController extends Controller
             $parameter = new Parameter();
             $param = $parameter->incrNodeCode('codigo_tem');
             $param = $parameter->getNodeCode('codigo_tem');
-    
+
             $temNode = new TemNode();
             $temNode->desc_nodo = $request->desc_nodo;
             $temNode->cod_nodo = 'A' . $param;
             $temNode->fecha = Carbon::now();
             $temNode->save();
-    
+
             $temIndex = new TemIndex();
             $temIndex->cod_padre = $request->cod_padre;
             $temIndex->cod_hijo = $temNode->cod_nodo;
@@ -123,13 +123,13 @@ class ThematicController extends Controller
             $parameter = new Parameter();
             $param = $parameter->incrNodeCode('codigo_coe');
             $param = $parameter->getNodeCode('codigo_coe');
-    
+
             $coeNode = new CoeNode();
             $coeNode->desc_nodo = $request->desc_nodo;
             $coeNode->cod_nodo = 'A' . $param;
             $coeNode->fecha = Carbon::now();
             $coeNode->save();
-            
+
             $coefic = new Coefic();
             // for Tablas y cuadros hay que agarrar param1 en dispatch como cod_padre
             if(!is_null($request->isTabCuad))
@@ -206,40 +206,46 @@ class ThematicController extends Controller
 
 
         // Agarro cod_hijos del res de la primer query y cheques si es padre de otros hijos y agarro el hijo para eliminar el primer nivel padre/hijo
-        foreach ($query_one as $one) 
+        foreach ($query_one as $one)
         {
             $hijos1[] = $one->cod_hijo;
             $query_two = DB::table($tableInd)->whereIn('cod_padre', $hijos1)->orWhereIn('cod_hijo', $hijos1)->get();
         }
-        
-        
+
+
         // chequeo si los hijos de la segunda query son padres
-        foreach ($query_two as $two) 
+        if(isset($query_two))
+        foreach ($query_two as $two)
         {
             $hijos2[] = $two->cod_hijo;
             $query_three = DB::table($tableInd)->whereIn('cod_padre', $hijos2)->get();
         }
-        
 
+        if(isset($query_three))
         if(count($query_three) > 0)
         {
             $res = $query_three->values()->all();
         }else{
             $res = $query_two->values()->all();
         }
-        
+
         // passo a null hijos de ese padre en INDTEM
-        foreach ($query_two as $two) 
+        if(isset($query_two))
+        foreach ($query_two as $two)
         {
             $padre[] = $two->cod_padre;
             $hijo[] = $two->cod_hijo;
         }
+        if(isset($query_two))
         $indtem = DB::table($tableInd)->whereIn('cod_padre', $padre)->whereIn('cod_hijo', $hijo)->delete();
-        
+
         // genero array de nodos
         $nodes = [];
-        foreach ($res as $key => $node) 
+
+        if(isset($res))
+        foreach ($res as $key => $node)
         {
+
             if(count($indtem) > 1)
             {
                 array_push($nodes, $node->cod_padre, $node->cod_hijo);
@@ -261,7 +267,7 @@ class ThematicController extends Controller
     public function getLinkNorm($cod_nodo, $desc_nodo)
     {
         $normTypes = NormType::select('id_tipo_norma')->orderBy('id_tipo_norma', 'asc')->get();
-        
+
         return view('thematic.linkNorm')->with(compact('cod_nodo', 'desc_nodo', 'normTypes'));
     }
 
@@ -478,7 +484,7 @@ class ThematicController extends Controller
         {
             $relNode->delete();
         }
-        
+
         $norm->delete();
 
         return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);

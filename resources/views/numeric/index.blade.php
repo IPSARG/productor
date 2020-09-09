@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('section-title', 'Normas') 
+@section('section-title', 'Normas')
 
 @push('scriptsHead')
     <script>
         $(function(){
             var sits = $('.sit_norm');
                 norms = $('.prod_norm');
-            $(sits).each(function(iSit,elSit){ 
-                $(norms).each(function(iNorm,elNorm){ 
+            $(sits).each(function(iSit,elSit){
+                $(norms).each(function(iNorm,elNorm){
                     var sit = $(elSit).html().replace(/\s+/g, '');
                         norm = $(elNorm).html().replace(/\s+/g, '');
                     if(new String(sit).valueOf() == new String(norm).valueOf()){
@@ -28,7 +28,7 @@
                     @include('numeric.modules.new_norm')
                 </div>
                 <div class="col-12 mt-4">
-                    @include('numeric.modules.norm_type') 
+                    @include('numeric.modules.norm_type')
                 </div>
             </div>
         </div>
@@ -45,4 +45,4 @@
     </div>
     @include('numeric.modals.search_norm')
     @include('numeric.modals.search_norm_type')
-@stop
+@endsection

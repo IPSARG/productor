@@ -19,6 +19,9 @@ use Illuminate\Http\Request;
 class NumericController extends Controller
 {
 
+    public function TESTING(Request $re){
+        dd($re->all());
+    }
     public function index()
     {
 
@@ -45,6 +48,7 @@ class NumericController extends Controller
 
     public function postNorm(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'id_norma' => 'required|string',
             'id_tipo_norma' => 'required|string',
@@ -119,7 +123,7 @@ class NumericController extends Controller
 
         $tema = new Theme();
         $temas = $tema->getAll();
-        
+
         $norm = new Norm;
         $norm = $norm->getNorm($id_norma, $id_tipo_norma);
 
@@ -199,7 +203,7 @@ class NumericController extends Controller
             'idjurisdiccion' => $documentType->idjurisdiccion,
             'idtipodocumento' => $documentType->idtipodocumento
         ]);
-        
+
         return redirect()->route('get.put.norm', ['id_norma' => $request->id_norma, 'id_tipo_norma' => $request->id_tipo_norma])->with('alert-message', ['message' => 'Norma modificada con éxito', 'alert-class' => 'bg-success text-white', 'alert-type' => 'alert-fixed']);
     }
 
@@ -261,7 +265,7 @@ class NumericController extends Controller
                     File::delete($file);
                 }
             }
-            
+
             $norm->update(['carpeta_texto' => null]);
 
             return redirect()->back()->with('alert-message', ['message' => 'Archivo físico y ruta eliminados con éxito', 'alert-class' => 'bg-orange text-white', 'alert-type' => 'alert-fixed']);
@@ -292,7 +296,7 @@ class NumericController extends Controller
                     $number = $number[0].'/'.$number[1];
                     $query->where('normas.id_norma', 'like', $number.'%');
                 }else{
-                    $number = $request->id_norma; 
+                    $number = $request->id_norma;
                     $query->where('normas.id_norma', '=', $number);
                     $query->orWhere('normas.id_norma', 'like', $number. '/' . '%');
                 }
@@ -317,7 +321,7 @@ class NumericController extends Controller
     }
 
     public function checkIfSlash($norm_number)
-    { 
+    {
         if(strpos($norm_number, '/') !== false){
             return true;
         }

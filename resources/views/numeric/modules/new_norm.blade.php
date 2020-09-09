@@ -4,8 +4,8 @@
         <button class="btn btn-secondary text-white rounded-circle float-right shadow" type="button" data-toggle="modal" data-target="#search_norm"><i class="fas fa-search"></i></button>
     </div>
     <div class="card-body">
-        <form action="{{ route('post.norm') }}" method="POST" enctype="multipart/form-data" data-parsley-validate data-parsley-errors-messages-disabled>
-            @csrf
+            <form method="POST" action="{{ route('post.norm') }}" accept-charset="utf-8" enctype="multipart/form-data">
+                @csrf
             <div class="row">
                 <div class="col-md-6 pr-1">
                     <div class="form-group">
@@ -68,9 +68,10 @@
                 <label for="texto_norma">Archivo</label>
                 <input type="file" name="texto_norma" class="form-control-file" required>
             </div>
-        </div>
-        <div class="card-footer border_top rounded-0 bg-white">
-            <button type="submit" class="btn btn-success rounded-pill border-0 px-4 shadow-green-left">Cargar</button>
-        </div>
-    </form>
+            <div class="card-footer border_top rounded-0 bg-white">
+             <button type="submit" class="btn btn-success rounded-pill border-0 px-4 shadow-green-left">Cargar</button>
+            </div>
+        </form>
+    </div>
 </div>
+

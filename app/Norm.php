@@ -27,6 +27,7 @@ class Norm extends Model
         // ->whereDate('normas.fec_prod', $today)
         ->where('normas.prod_active', 1)
         ->orderBy('normas.fec_carga', 'desc')
+        ->take(30) // sacar esto y filtro por fecha
         ->get()
         ->groupBy('fec_carga');
 
