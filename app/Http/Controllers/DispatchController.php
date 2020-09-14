@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Config;
 
 class DispatchController extends Controller
 {
-    
+
     public function resultNCl(Request $request)
     {
         $descNodo = $request->DescNodo;
@@ -66,7 +66,7 @@ class DispatchController extends Controller
         $temas = $tema->getAll();
 
         Breadcrumb::create($request, $descNodo, $codNodo);
- 
+
         return view('thematic.results.general')->with(compact('tematics', 'normTypes', 'temas'));
     }
 
@@ -107,7 +107,7 @@ class DispatchController extends Controller
         })
         ->join('normas', 'trvnorma.nombrehtm', '=', 'normas.texto_norma')
         ->join('tipo_norma', 'tipo_norma.id_tipo_norma', '=', 'normas.id_tipo_norma')
-        ->select('trvarticulonorma.nroorden', 'trvarticulonorma.nivel','trvarticulonorma.bold', 'trvarticulonorma.codarticulo','trvarticulonorma.descarticulo', 'trvarticulonorma.voces', 'trvnorma.nombrehtm', 'normas.texto_norma as text_norm', 'tipo_norma.desc_tipo_norma', 'normas.id_norma','normas.id_tipo_norma')
+        ->select('trvarticulonorma.codnorma','trvarticulonorma.nroorden', 'trvarticulonorma.nivel','trvarticulonorma.bold', 'trvarticulonorma.codarticulo','trvarticulonorma.descarticulo', 'trvarticulonorma.voces', 'trvnorma.nombrehtm', 'normas.texto_norma as text_norm', 'tipo_norma.desc_tipo_norma', 'normas.id_norma','normas.id_tipo_norma')
         ->orderBy('trvarticulonorma.nroorden', 'asc')
         ->get();
 
@@ -131,20 +131,21 @@ class DispatchController extends Controller
                 }
             }
         }
-    
+        dd($firstDescArt,$firstLvl);
+
         $count = 0;
 
         Breadcrumb::create($request, $descNodo, $codNodo);
 
         return view('thematic.results.capitulated')->with(compact('tematics','firstDescArt', 'firstLvl', 'count'));
- 
+
     }
 
     public function getTopicsCovered(Request $request)
     {
         $codNodo = $request->CodNodo;
         $descNodo = $request->DescNodo;
-        
+
         $topicsArray = [];
         $topics = TrvTax::join('trvdocum', 'trvimpuesto.codimpuesto', '=', 'trvdocum.codimpuesto')
         ->whereIn('trvdocum.tipodoc', [4,5,6,7,8,9,11,12,20])
@@ -186,7 +187,7 @@ class DispatchController extends Controller
 
         // Nombre tema elegido
         $codimpuestoDesc = TrvTax::where('codimpuesto', $codimpuesto)->select('descimpuesto')->first();
-        
+
         if($tematics->isEmpty()){
             Session::flash('error','Ningún resultado encontrado relativo a su búsqueda');
             return redirect()->back()->withInput();
@@ -212,7 +213,7 @@ class DispatchController extends Controller
             if($relSearch['inclusion'] == 'I'){
                 $query->where(function($query) use($busDescs){
                     foreach ($busDescs as $busDesc) {
-                        // $stmt = 
+                        // $stmt =
                         $query->orWhere('normas.desc_norma', 'LIKE', '%' . $busDesc . '%');
                     }
                 });
@@ -220,7 +221,7 @@ class DispatchController extends Controller
             }elseif ($relSearch['inclusion'] == 'E') {
                 $query->where(function($query) use($busDescs){
                     foreach ($busDescs as $busDesc) {
-                        // $stmt = 
+                        // $stmt =
                         $query->orWhere('normas.desc_norma', 'NOT LIKE', '%' . $busDesc . '%');
                     }
                 });

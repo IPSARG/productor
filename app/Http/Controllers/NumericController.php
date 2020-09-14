@@ -15,6 +15,7 @@ use App\RelNumNode;
 use App\DocumentType;
 use App\Jurisdiction;
 use Illuminate\Http\Request;
+use Storage;
 
 class NumericController extends Controller
 {
@@ -167,12 +168,10 @@ class NumericController extends Controller
                     {
                         $fileName = basename($norm->texto_norma);
                         $fileLocation = !is_null($norm->carpeta_texto) ? $norm->carpeta_texto : $request->norm_folder;
-                        $filesInEx = File::files($fileLocation);
-                        foreach ($filesInEx as $file) {
-                            if ($fileName == basename($file)) {
-                                File::delete($file);
-                            }
-                        }
+                        $exist= Storage::exists($norm->carpeta_texto.'/'.$norm->texto_norma);
+                        if($exist==true)
+                        Storage::delete($norm->carpeta_texto.'/'.$norm->texto_norma);
+
                     }
 
                     $location = $request->norm_folder;
@@ -234,12 +233,9 @@ class NumericController extends Controller
         {
             $fileName = basename($norm->texto_norma);
             $fileLocation = $norm->carpeta_texto;
-            $filesInEx = File::files($fileLocation);
-            foreach ($filesInEx as $file) {
-                if ($fileName == basename($file)) {
-                    File::delete($file);
-                }
-            }
+            $exist= Storage::exists($norm->carpeta_texto.'/'.$norm->texto_norma);
+            if($exist==true)
+            Storage::delete($norm->carpeta_texto.'/'.$norm->texto_norma);
             $norm->delete();
 
             return redirect()->back()->with('alert-message', ['message' => 'Norma y archivo eliminados con éxito', 'alert-class' => 'bg-orange text-white', 'alert-type' => 'alert-fixed']);
@@ -252,24 +248,24 @@ class NumericController extends Controller
 
     public function deleteNormArchive($texto_norma)
     {
-        $norm = new Norm;
-        $norm = $norm->getNormByArchive($texto_norma);
+        try {
+            $norm = new Norm;
+            $norm = $norm->getNormByArchive($texto_norma);
 
-        $fileName = basename($norm->texto_norma);
-        $fileLocation = $norm->carpeta_texto;
-        if(!is_null($fileLocation))
-        {
-            $filesInEx = File::files($fileLocation);
-            foreach ($filesInEx as $file) {
-                if ($fileName == basename($file)) {
-                    File::delete($file);
-                }
+            $fileName = basename($norm->texto_norma);
+            $fileLocation = $norm->carpeta_texto;
+
+        $exist= Storage::exists($norm->carpeta_texto.'/'.$norm->texto_norma);
+            if($exist)
+            {
+                Storage::delete($norm->carpeta_texto.'/'.$norm->texto_norma);
+                $norm->update(['carpeta_texto' => null]);
+                return redirect()->back()->with('alert-message', ['message' => 'Archivo físico y ruta eliminados con éxito', 'alert-class' => 'bg-orange text-white', 'alert-type' => 'alert-fixed']);
             }
-
-            $norm->update(['carpeta_texto' => null]);
-
-            return redirect()->back()->with('alert-message', ['message' => 'Archivo físico y ruta eliminados con éxito', 'alert-class' => 'bg-orange text-white', 'alert-type' => 'alert-fixed']);
+        } catch (\Throwable $th) {
+           dd($th); //throw $th;
         }
+
         return redirect()->back()->with('alert-message', ['message' => 'Archivo no encondrado. Ruta no especificada', 'alert-class' => 'bg-danger text-white', 'alert-type' => 'alert-fixed']);
     }
 

@@ -52,7 +52,9 @@ class TemIndex extends Model
         $dispatchSubject = new Dispatch();
         $dispatchSubject = Dispatch::where('codigo', $codNodo)->select('codigo', 'ruta', 'param1', 'param2', 'param3')->first();
         //  SI EXISTE IN DISPATCH LA VAR $codNodo PASA A SER = A PARAM1
-        if(count($dispatchSubject) > 0){
+        // dd($dispatchSubject);
+
+        if($dispatchSubject!=null){
             $codNodo = $dispatchSubject->param1;
         };
 

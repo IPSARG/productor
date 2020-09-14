@@ -6,6 +6,7 @@ use App\Norm;
 use App\Theme;
 use App\Coefic;
 use App\CoeNode;
+use App\NormArticle;
 use App\TemNode;
 use App\Dispatch;
 use App\NormType;
@@ -75,7 +76,6 @@ class ThematicController extends Controller
 
         $tematic = new TemIndex();
         $tematics = $tematic->getChildCoefi($codNodo);
-
         // SI NO HAY MAS HIJOS VOY A DispatchConteoller@resultCoe
         if(count($tematics) === 0){
             return redirect()->route('get.disp.Coe', ['CodNodo' => $codNodo, 'DescNodo' => $descNodo]);
@@ -156,12 +156,12 @@ class ThematicController extends Controller
         return redirect()->back()->with('alert-message', ['message' => 'Nodo cargado con éxito', 'alert-class' => 'bg-success text-white', 'alert-type' => 'alert-fixed']);
     }
 
-    public function putNode(Request $request, $cod_nodo, $desc_nodo_old)
+    public function putNode(Request $request, $cod_nodo)
     {
         $validator = Validator::make($request->all(),[
             'cod_padre' => 'required|string',
             'desc_nodo' => 'required|string|max:80',
-            'desc_nodo_old' => 'required|string',
+
         ]);
 
         if($validator->fails()){
@@ -172,14 +172,12 @@ class ThematicController extends Controller
         {
             $temNode = TemNode::where([
                 'cod_nodo' => $request->cod_nodo,
-                'desc_nodo' => $request->desc_nodo_old,
             ])->update([
                 'desc_nodo' => $request->desc_nodo
             ]);
         }else{
             $coeNode = CoeNode::where([
                 'cod_nodo' => $request->cod_nodo,
-                'desc_nodo' => $request->desc_nodo_old,
             ])->update([
                 'desc_nodo' => $request->desc_nodo
             ]);
@@ -209,10 +207,11 @@ class ThematicController extends Controller
         foreach ($query_one as $one)
         {
             $hijos1[] = $one->cod_hijo;
-            $query_two = DB::table($tableInd)->whereIn('cod_padre', $hijos1)->orWhereIn('cod_hijo', $hijos1)->get();
         }
+        $query_two = DB::table($tableInd)->whereIn('cod_padre', $hijos1)->orWhereIn('cod_hijo', $hijos1)->get();
 
 
+        dd($query_one,$query_two);
         // chequeo si los hijos de la segunda query son padres
         if(isset($query_two))
         foreach ($query_two as $two)
@@ -236,7 +235,7 @@ class ThematicController extends Controller
             $padre[] = $two->cod_padre;
             $hijo[] = $two->cod_hijo;
         }
-        if(isset($query_two))
+        if(isset($padre))
         $indtem = DB::table($tableInd)->whereIn('cod_padre', $padre)->whereIn('cod_hijo', $hijo)->delete();
 
         // genero array de nodos
@@ -245,7 +244,7 @@ class ThematicController extends Controller
         if(isset($res))
         foreach ($res as $key => $node)
         {
-
+            // dd($indtem);
             if(count($indtem) > 1)
             {
                 array_push($nodes, $node->cod_padre, $node->cod_hijo);
@@ -262,6 +261,22 @@ class ThematicController extends Controller
         $relNodeTem = DB::table($tableRel)->whereIn('cod_nodo', $nodes)->delete();
 
         return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
+    }
+
+    public function deleteCODOFINAL(Request $re, $codnorma ,$nroorden){
+        // dd($codnorma,$nroorden);
+
+
+        $reg=NormArticle::where('codnorma',$codnorma)->where('nroorden',$nroorden)->first();
+        if($reg!=null){
+            dd($reg);
+            // $reg->delete();
+        return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-success text-white', 'alert-type' => 'alert-fixed']);
+
+        }
+        return redirect()->back()->with('alert-message', ['message' => 'No se encontro el nodo', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
+
+
     }
 
     public function getLinkNorm($cod_nodo, $desc_nodo)

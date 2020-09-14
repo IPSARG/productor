@@ -34,7 +34,7 @@
         Route::get('/buscar-normas/{id_norma?}/{id_tipo_norma?/{fec_carga?}/{fec_norma?}', 'NumericController@searchNorms')->where('id_norma', '.*')->name('search.norms');
         Route::put('/deactive-norm/{id_norma}/{id_tipo_norma}', 'NumericController@deactiveNorm')->where('id_norma', '.*')->name('deactive.norm');
         // ARCHIVE
-        Route::delete('delete-norm-archive/{texto_norma}', 'NumericController@deleteNormArchive')->name('delete.norm.archive');
+        Route::any('delete-norm-archive/{texto_norma}', 'NumericController@deleteNormArchive')->name('delete.norm.archive');
         // NORM TYPE
         Route::post('/post-norm-type', 'NormTypeController@postNormType')->name('post.norm.type');
         Route::get('/buscar-tipo-norma/{desc_tipo_norma?}/{id_tipo_norma?}/{idjurisdiccion?}/{idtipodocumento?}', 'NormTypeController@searchNormType')->name('search.norm.type');
@@ -58,8 +58,13 @@
         Route::get('agregar-coe/{cod_padre}/{desc_nodo}', 'ThematicController@getAddCoe')->where('desc_nodo', '.*')->name('get.post.coe');
         // POST/PUT/DELETE
         Route::post('post-node', 'ThematicController@postNode')->name('post.node');
-        Route::put('put-node/{cod_nodo}/{desc_nodo}', 'ThematicController@putNode')->name('put.node');
+        Route::put('put-node/{cod_nodo}', 'ThematicController@putNode')->name('put.node');
         Route::delete('delete-node/{cod_nodo}', 'ThematicController@deleteNode')->name('delete.node');
+        Route::delete('delete-node/{codnorma}/{nroorden}', 'ThematicController@deleteCODOFINAL')->name('delete.trvarticulonorma');
+
+
+
+
         Route::delete('unlink-node/{id_norma}/{id_tipo_norma}', 'ThematicController@unlinkNode')->where('id_norma', '.*')->name('unlink.node');
         Route::delete('delete-norm/{id_norma}/{id_tipo_norma}', 'ThematicController@deleteNorm')->where('id_norma', '.*')->name('delete.norm');
         Route::post('link-norm', 'ThematicController@linkNorm')->name('link.norm');

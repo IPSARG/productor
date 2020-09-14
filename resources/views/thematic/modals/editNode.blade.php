@@ -2,7 +2,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content rounded-0 border-0 shadow-lg">
                 <div class="modal-body rounded-0 border-0">
-                    <form action="{{ route('put.node', ['cod_nodo' => IsCoefi::isCoefi(request(), $tematic->desc_nodo) ? $tematic->cod_hijo : $tematic->cod_nodo, 'desc_nodo' => $tematic->desc_nodo]) }}" method="POST">
+                    <form action="{{ route('put.node', ['cod_nodo' => IsCoefi::isCoefi(request(), $tematic->desc_nodo) ? $tematic->cod_hijo : $tematic->cod_nodo]) }}" method="POST">
                        {{ method_field('PUT')}}
                         @csrf
                         <input type="hidden" name="cod_padre" value="{{ IsCoefi::isCoefi(request(), $tematic->desc_nodo) ? $tematic->cod_hijo : $tematic->cod_nodo }}">
