@@ -60,7 +60,7 @@
         Route::post('post-node', 'ThematicController@postNode')->name('post.node');
         Route::put('put-node/{cod_nodo}', 'ThematicController@putNode')->name('put.node');
         Route::delete('delete-node/{cod_nodo}', 'ThematicController@deleteNode')->name('delete.node');
-        Route::delete('delete-node/{codnorma}/{nroorden}', 'ThematicController@deleteCODOFINAL')->name('delete.trvarticulonorma');
+        Route::post('updatecodoFinales/', 'ThematicController@updatecodoFinales')->name('post.updatecodoFinales');
 
 
 

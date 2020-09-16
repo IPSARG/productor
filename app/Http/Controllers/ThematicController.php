@@ -263,18 +263,59 @@ class ThematicController extends Controller
         return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
     }
 
-    public function deleteCODOFINAL(Request $re, $codnorma ,$nroorden){
-        // dd($codnorma,$nroorden);
+    public function Asignacion_hijos($dato,$pos){
 
-
-        $reg=NormArticle::where('codnorma',$codnorma)->where('nroorden',$nroorden)->first();
-        if($reg!=null){
-            dd($reg);
-            // $reg->delete();
-        return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-success text-white', 'alert-type' => 'alert-fixed']);
-
+        foreach($dato->hijos as $key=> $hijo){
+            $hijo = (object)$hijo;
+            $norma=   NormArticle::find($hijo->nroorden);
+            if($norma==null || $dato->nroorden=='nuevo'){
+                $norma = new NormArticle();
+            }
+            $norma->codnorma =$hijo->codnorma;
+            $norma->nivel =$hijo->color;
+            $norma->descarticulo =$hijo->texto;
+            $norma->nroorden =$pos;
+            $norma->save();
+            $pos +=1;
+            // falta  preguntar si no existe y crear la norma en caso de que no exista.
+            if(isset($hijo->hijos)){
+              $pos= $this->Asignacion_hijos($hijo,$pos);
+            }
         }
-        return redirect()->back()->with('alert-message', ['message' => 'No se encontro el nodo', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
+        return $pos;
+    }
+    public function updatecodoFinales(Request $re){
+        // dd($codnorma,$nroorden);
+        $pos=1;
+        foreach($re->datos as $key=> $dato){
+            $dato = (object)$dato;
+          $norma=  NormArticle::find($dato->nroorden);
+          if($norma==null || $dato->nroorden=="nuevo"){
+            $norma = new NormArticle();
+        }
+        // dd($norma);
+          if($key==0){
+            //   dd($norma,$dato);
+            $norma->nivel =1;
+          }
+          else {
+            $norma->nivel =$dato->color;
+          }
+          $norma->descarticulo =$dato->texto;
+          $norma->codnorma =$dato->codnorma;
+          $norma->nroorden =$pos;
+        //   dd($norma);
+          $norma->save();
+          if($dato->texto== "Sistema Integrado de Aplicaciones - SIAP" )
+        //   dd($norma);
+          $pos++;
+          if(isset($dato->hijos)){
+            $pos= $this->Asignacion_hijos($dato,$pos);
+        }
+        }
+
+        return 'Nodos actualizados correctamente.';
+//        return redirect()->back()->with('alert-message', ['message' => 'No se encontro el nodo', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
 
 
     }

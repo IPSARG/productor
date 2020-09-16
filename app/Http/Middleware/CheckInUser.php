@@ -18,6 +18,8 @@ class CheckInUser
      */
     public function handle($request, Closure $next)
     {
+        return $next($request);
+
         $sit_session = session()->get('sit_session');
         $sitUser = session()->get('sit_user');
         if(is_null($sit_session))

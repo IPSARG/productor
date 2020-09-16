@@ -107,16 +107,17 @@ class DispatchController extends Controller
         })
         ->join('normas', 'trvnorma.nombrehtm', '=', 'normas.texto_norma')
         ->join('tipo_norma', 'tipo_norma.id_tipo_norma', '=', 'normas.id_tipo_norma')
-        ->select('trvarticulonorma.codnorma','trvarticulonorma.nroorden', 'trvarticulonorma.nivel','trvarticulonorma.bold', 'trvarticulonorma.codarticulo','trvarticulonorma.descarticulo', 'trvarticulonorma.voces', 'trvnorma.nombrehtm', 'normas.texto_norma as text_norm', 'tipo_norma.desc_tipo_norma', 'normas.id_norma','normas.id_tipo_norma')
+        ->select('trvarticulonorma.codnorma','trvarticulonorma.nroorden', 'trvarticulonorma.nivel','trvarticulonorma.bold', 'trvarticulonorma.codarticulo','trvarticulonorma.descarticulo', 'trvarticulonorma.voces', 'trvnorma.nombrehtm', 'normas.texto_norma as text_norm', 'tipo_norma.desc_tipo_norma', 'normas.id_norma','normas.id_tipo_norma','trvarticulonorma.id as id')
         ->orderBy('trvarticulonorma.nroorden', 'asc')
         ->get();
-
+        // dd($tematics->where('nivel',9)->first());
         $first = $tematics->first();
         $mayLvlFirst = ['0','1','3'];
         if(is_int($first->nivel) || $first->nivel != null){
             $firstDescArt = $first;
         }
 
+        dd($tematics->take(15),$firstDescArt);
         // RETRIEVE FIRST NUMBER BIGGER THEN 0 BUT SMALLER THEN 9 (IN ORDER TO COMPARE IN VIEW)
         $firstLvl = null;
         foreach ($tematics as $tematic) {
@@ -131,7 +132,9 @@ class DispatchController extends Controller
                 }
             }
         }
-        dd($firstDescArt,$firstLvl);
+        // dd($firstDescArt,$tematics->where('nivel','!=',0)->take(10),$firstLvl);
+        $firstLvl=1;
+        // dd($firstDescArt,$firstLvl);
 
         $count = 0;
 
