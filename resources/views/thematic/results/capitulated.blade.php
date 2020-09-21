@@ -8,433 +8,360 @@
             @include('partials._breadcrumbs')
         </div>
     </div>
-    <div class="row mb-4">
-        {{--  {{ dd($tematics,$firstDescArt,$firstLvl) }}  --}}
+    <style>
+    .bg-dark2{
+        background-color: rgb(121, 120, 120);
+    }
+    </style>
+    <style>
 
-             {{--  @foreach ($tematics as $tematic)
-               <div class="card border-0 rounded-0 shadow mb-2 card_cap" data-nivel="{{$tematic->nivel}}">
-                    <div class="card-body py-2">
-                        <div class="row">
-                            <div class="col-md-10">
-                                @isset($firstDescArt)
-                                    @if($loop->iteration === 1)
-                                        <p class="m-0 font-weight-bold text-trivia d-inline-block">
-                                            <i>{{ $firstDescArt->descarticulo }}</i>
-                                        </p>
-                                    @endif
-                                @endif
-                                @if($tematic->nivel == $firstLvl)
-                                    @php  $count = $count + 1 @endphp
-                                    <div class="font-weight-bold text-orange">
-                                        <p class="m-0">{{$tematic->descarticulo}}</p>
-                                    </div>
-                                @endif
-                                @if($tematic->nivel > $firstLvl && $tematic->nivel < 9 && $firstLvl !== null)
-                                    <p class="m-0 {{ $tematic->nivel == 3 ? 'text-primary pl-2' : 'text-success pl-4' }} font-weight-bold ">{{ $tematic->descarticulo}} </p>
-                                @endif
-                                @if($tematic->nivel >= 9)
-                                    <p class="m-0 font-weight-bold text-dark pl-5">
-                                        {{ $tematic->codarticulo !== '' ? 'Art. ' . $tematic->codarticulo : '' }}
-                                        {{$tematic->descarticulo}}
-                                    </p>
-                                @endif
-                            </div>
+        .col_Defecto{
+            width: 100%;
+            background-color:#90e3e9;
+            min-height: 100px;
+            padding: 10px;
+            margin: 10px;
+            padding-bottom: 50px !important;
 
-
-                             <div class="col-md-2 pl-1" data-descTipoNorma="{{ $tematic->desc_tipo_norma }}" data-idTipoNorma="{{$tematic->id_tipo_norma}}" data-idNorma="{{$tematic->id_norma}}" data-articulo="{{ $tematic->codarticulo != '' ? $tematic->codarticulo : '' }}" data-nivel="{{$tematic->nivel}}">
-                                <ul class="list-inline float-right mb-0">
-                                    <li class="list-inline-item">
-                                        <a href=" route('get.link.norm', ['codnorma'=>$tematic->codnorma,'nroorden'=>$tematic->id]) "><i class="fas fa-link text-secondary"></i></a>
-
-                                        <a href=""><i class="fas fa-edit text-info"></i></a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <form action="{{ route('delete.trvarticulonorma',['codnorma'=>$tematic->codnorma,'nroorden'=>$tematic->id] )}}" method="POST" class="conf_form">
-                                            @csrf
-                                            {{ method_field('DELETE') }}
-                                            <button class="btn btn-link p-0" type="submit">
-                                                <i class="fas fa-trash-alt text-danger"></i>
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach  --}}
-
-        <style>
-
-            .col_Defecto{
-                width: 40%;
-                background-color:#90e3e9;
-                min-height: 100px;
-                padding: 10px;
-                margin: 10px;
-                padding-bottom: 50px !important;
-            }
-            .col_Rojo{
-                width: 100%;
-                background-color:hsl(0, 100%, 44%);
-                min-height: 50px;
-                padding: 10px;
-                padding-bottom: 50px !important;
-            }
-            .col_Azul{
-                width: 100%;
-                background-color:rgb(23, 13, 220);
-                min-height: 50px;
-                padding: 10px;
-                padding-bottom: 50px !important;
-            }
-            .col_Verde{
-                width: 100%;
-                background-color:rgb(68, 218, 48);
-                min-height: 50px;
-                padding: 10px;
-                padding-bottom: 50px !important;
-            }
-            .col_Normal{
-                width: 100%;
-                background-color:rgb(148, 137, 172);
-                min-height: 50px;
-                padding: 10px;
-                padding-bottom: 50px !important;
-            }
-            .header-rojo{
-                background-color:rgba(255, 153, 153, 0.946) !important;
-            }
-            .header-azul{
-                background-color:rgb(110, 127, 255) !important;
-            }
-            .header-verde{
-                background-color:rgb(110, 255, 122) !important;
-            }
-            .col_Rojo_children{
-                background-color:hsl(0, 33%, 63%);
-                padding-bottom: 50px !important;
-            }
-            .col_Azul_children{
-                background-color:rgb(53, 48, 141);
-                padding-bottom: 50px !important;
-            }
-            .col_Verde_children{
-                background-color:rgb(48, 141, 56);
-                padding-bottom: 50px !important;
-            }
-            .portlet{
-                background-color: #a5a5a5;
-                border: black solid 4px;
-                margin: 5px;
-            }
-            .portlet-header{
-                font-size: 20px;
-            }
-            .drop-placeholder {
-                background-color: lightgray;
-                height: 3.5em;
-                padding-top: 12px;
-                padding-bottom: 12px;
-                line-height: 1.2em;
-                }
-        </style>
-
-        <div class="col-md-4">
-
-            <div>
-                <h5>Alta de Contenedor Rojo (lvl 2)</h5>
-                <div class="form-check form-check-inline">
-                    <input class="form-control w-60" type="text" id="Rojo-titulo" name="titulo"  placeholder="Titulo...">
-                    <a  id="Rojo-alta" class="btn btn-primary w-40 ml-10"  role="button">Crear</a>
-                </div>
-                <div class="row col_Rojo" id="Rojo-column" style="width: 60% !important">
-                </div>
-            </div>
-            <div>
-                <h5>Alta de Contenedor Azul (lvl 3)</h5>
-                <div class="form-check form-check-inline">
-                    <input class="form-control w-60" type="text" id="Azul-titulo" name="titulo"  placeholder="Titulo...">
-                    <a  id="Azul-alta" class="btn btn-primary w-40 ml-10"  role="button">Crear</a>
-                </div>
-                <div class="row col_Azul" id="Azul-column" style="width: 60% !important">
-                </div>
-            </div>
-            <div>
-                <h5>Alta de Contenedor Verde (lvl 4)</h5>
-                <div class="form-check form-check-inline">
-                    <input class="form-control w-60" type="text" id="Verde-titulo" name="titulo"  placeholder="Titulo...">
-                    <a  id="Verde-alta" class="btn btn-primary w-40 ml-10"  role="button">Crear</a>
-                </div>
-                <div class="row col_Verde" id="Verde-column" style="width: 60% !important">
-                </div>
-            </div>
-            <div>
-                <h5>Seleccion de Norma (lvl 9)</h5>
-                <div class="form-check form-check-inline">
-                    <input class="form-control w-60" type="text" id="Normal-titulo" name="titulo"  placeholder="Titulo...">
-                    <a  id="Normal-alta" class="btn btn-primary w-40 ml-10"  role="button">Crear</a>
-                </div>
-                <div class="row col_Normal" id="Normal-column" style="width: 60% !important">
-                </div>
-            </div>
-            <div>
-                <h5>Guardar Cambios</h5>
-                <button type="button" id="guardar-todo" class="btn btn-primary">Guardar</button>
-            </div>
-        </div>
-            <div class="col-md-8 " style="margin-top:10px">
-
-                <h4 class="font-weight-bold oswald title_section_black">Vista</h4>
-                <div class="col_Defecto flex"  style="width: 100%;" id="columna2">
-
-
-                    {{--  <div class="portlet">
-                        <div class="portlet-header blue darken-3 py-2 my-3 text-center white-text collapseButton" data-toggle="collapse"
-                          href="#news">News <i class="fas fa-caret-down  ml-2"></i></div>
-                        <div class="portlet-content collapse text-center" id="news">
-                            <div class="col_Azul_children"></div>
-                        </div>
-                      </div>  --}}
-                </div>
-
-              </div>
-
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script>
-
-        var arrays=[".col_Defecto",".col_Normal",".col_Rojo",".col_Verde",".col_Azul",".col_Azul_children",".col_Rojo_children",".col_Verde_children"];
-       var card_cont={{ 0 }};
-
-       var pos=0;
-       var pos_verde=0;
-       var pos_azul=0;
-       var last_rojo=0;
-       var last_azul=0;
-       var last_verde=0;
-
-        function get_hijos(divs){
-        var datos = new Array();
-        divs.children('.portlet').each(function( ind,valor ) {
-                     var texto = '';
-                     if($(valor).hasClass('header-rojo')){
-                         texto = $(valor).children('div').children('.input-valor')[0].value;
-                         var da = {color: '2', codnorma: $(valor).attr('codnorma'), nroorden: $(valor).attr('nroorden'),texto:texto,hijos:get_hijos($(valor).children('.portlet-content').children('.col_Rojo_children'))};
-                         datos.push(da)
-                     }
-
-                     else if($(valor).hasClass('header-azul')){
-                         texto = $(valor).children('div').children('.input-valor')[0].value;
-                         var da = {color: '3', codnorma: $(valor).attr('codnorma'), nroorden: $(valor).attr('nroorden'),texto:texto,hijos:get_hijos($(valor).children('.portlet-content').children('.col_Azul_children'))};
-                         datos.push(da)
-                     }
-                     else if($(valor).hasClass('header-verde')){
-                         texto = $(valor).children('div').children('.input-valor')[0].value;
-                         var da = {color: '4', codnorma: $(valor).attr('codnorma'), nroorden: $(valor).attr('nroorden'),texto:texto,hijos:get_hijos($(valor).children('.portlet-content').children('.col_Verde_children'))};
-                         datos.push(da)
-                     }
-                     else {
-                         texto = $(valor).children('div').children('.input-valor')[0].value;
-                         var da = {color: '9', codnorma: $(valor).attr('codnorma'), nroorden: $(valor).attr('nroorden'),texto:texto};
-                         datos.push(da)
-                     }
-
-                 });
-                 //console.log($(this))
-
-             return datos;
+        }
+        .col_Rojo{
+            width: 100%;
+            background-color:hsl(0, 100%, 44%);
+            min-height: 50px;
+            padding: 10px;
+            padding-bottom: 50px !important;
         }
 
-       $(document).on("click", "#guardar-todo", function() {
-        var divs = $(".col_Defecto");
-        var datos= new Array();
-        datos= get_hijos(divs);
-        console.log(datos);
-        $.ajax({
-            url: "{{ route('post.updatecodoFinales') }}",
-            method: 'POST',
-            data:{
-                datos:datos
-            },
-            success: function(respuesta){
-              console.log(respuesta)
+        .portlet{
+            background-color: #e6e6e6;
+            border: black solid 4px;
+            margin: 5px;
+        }
+
+        .drop-placeholder {
+            background-color: lightgray;
+            height: 3.5em;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            line-height: 1.2em;
             }
-        });
+
+    .fijo {
+        position: fixed;
+        min-height: 120px;
+        right: 15px;
+        text-align: center;
+        word-wrap: break-word;
+        background-color: aquamarine;
+    }
+    </style>
+    <div class="row">
+    <div class="col-4 fijo">
+
+            <h5>Alta de Contenedor</h5>
+
+            <div class="input-group">
+                <input class="form-control " type="text" id="Rojo-titulo" name="titulo"  placeholder="Titulo...">
+                <div class="input-group-append">
+                    {{--  <span class="input-group-text" id="my-addon">Text</span>  --}}
+                    <input class="input-group-text" type="text" name="" placeholder="Numero de Articulo" id="art_alta">
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+            <small id="helpId" class="form-text text-muted"> El numero de articulo solo se usara en caso de que sea nivel 9</small>
+
+            <div class="form-group">
+                <label for="">Nivel</label>
+                    <select  class="form-control"  id="valor_alta">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="9">9</option>
+                    </select>
+                <small id="helpId" class="form-text text-muted">1:solo el primer nodo 2: color Naranja, 3:color azul, 4:color verde, 9:color negro</small>
+              </div>
+                <a  id="Rojo-alta" class="btn btn-primary w-100 " style=""  role="button">Crear</a>
+            <div class="row col_Rojo" id="Rojo-column" style="width: 100% !important">
+            </div>
+
+        <div>
+            <button type="button" id="guardar-todo" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </div>
+    <div class="col-6 mb-4">
+        <div class="col-12 col_Defecto">
+            @foreach ($tematics as $key => $tematic)
+            {{--  {{ dd($firstLvl,$firstDescArt) }}  --}}
+                <div class="portlet card border-0 rounded-0 shadow mb-2 " data-nivel="{{$tematic->nivel}}">
+                    <div class="card-body py-2 portlet-header form-check-inline" >
+                                @isset($firstDescArt)
+                                    @if($loop->iteration === 1)
+                                <div class="divcontenedor font-weight-bold w-100" id="div_{{ $firstDescArt->id }}">
+                                    <label   class="m-0 font-weight-bold text-dark pl-5" style="float:left;margin-right: 5px !important;padding-left: 0px !important;"></label>
+
+                                    <p class="m-0 font-weight-bold text-trivia d-inline-block">
+                                        {{ $firstDescArt->descarticulo }}
+                                    </p>
+                                    <button type="button" class="btn btn-primary float-right editarbutton" @if($key==0) bloqueado="true" @endif dataid="{{$firstDescArt->id}}" texto="{{ $firstDescArt->descarticulo }}" nivel="{{ $firstDescArt->nivel }}" >Editar</button>
+                                </div>
+
+                                    @endif
+                                @endif
+                                @if($tematic->nivel == 2)
+                                    @php  $count = $count + 1 @endphp
+                                    <div class="divcontenedor font-weight-bold text-orange w-100" id="div_{{ $tematic->id }}">
+                                        <label   class="m-0 font-weight-bold text-dark pl-5" style="float:left;margin-right: 5px !important;padding-left: 0px !important;"></label>
+
+                                        <p class="m-0">{{$tematic->descarticulo}}</p>
+                                        <button type="button" class="btn btn-primary float-right editarbutton" @if($key==0) bloqueado="true" @endif dataid="{{$tematic->id}}" texto="{{ $tematic->descarticulo }}" nivel="{{ $tematic->nivel }}" >Editar</button>
+                                    </div>
+                                @endif
+
+
+                                @if($tematic->nivel ==3)
+                                <div class="divcontenedor font-weight-bold w-100" id="div_{{ $tematic->id }}">
+                                    <label   class="m-0 font-weight-bold text-dark pl-5" style="float:left;margin-right: 5px !important;padding-left: 0px !important;"></label>
+
+                                    <p class="m-0 text-primary pl-2 font-weight-bold ">{{ $tematic->descarticulo}} </p>
+                                    <button type="button" class="btn btn-primary float-right editarbutton" dataid="{{$tematic->id}}" texto="{{ $tematic->descarticulo }}" nivel="{{ $tematic->nivel }}" >Editar</button>
+                                </div>
+                                @endif
+                                @if($tematic->nivel ==4)
+                                <div class="divcontenedor font-weight-bold w-100" id="div_{{ $tematic->id }}">
+                                    <label   class="m-0 font-weight-bold text-dark pl-5" style="float:left;margin-right: 5px !important;padding-left: 0px !important;"></label>
+
+                                    <p class="m-0 text-success pl-4 font-weight-bold ">{{ $tematic->descarticulo}} </p>
+                                    <button type="button" class="btn btn-primary float-right editarbutton" dataid="{{$tematic->id}}" texto="{{ $tematic->descarticulo }}" nivel="{{ $tematic->nivel }}" >Editar</button>
+                                </div>
+                                @endif
+                                @if($tematic->nivel >= 9)
+
+
+                                <div class="divcontenedor font-weight-bold w-100" id="div_{{ $tematic->id }}">
+                                    <label   class="m-0 font-weight-bold text-dark pl-5" style="float:left;margin-right: 5px !important;padding-left: 0px !important;">  {{ $tematic->codarticulo !== '' ? 'Art. ' . $tematic->codarticulo.' ' : '' }}</label>
+                                    <p class="m-0 font-weight-bold text-dark pl-5" style="margin-left:4px !important">
+
+                                        {{$tematic->descarticulo}}
+                                    </p>
+                                    <button type="button" class="btn btn-primary float-right editarbutton" codarticulo="{{ $tematic->codarticulo }}" textaux="{{ $tematic->codarticulo !== '' ? 'Art. ' . $tematic->codarticulo : '' }}" dataid="{{$tematic->id}}" texto="{{ $tematic->descarticulo }}" nivel="{{ $tematic->nivel }}" >Editar</button>
+                                </div>
+
+                                @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
+  Launch
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label for="">Titulo</label>
+                  <input class="form-control" type="text" id="dataid_modal" hidden>
+                  <input class="form-control" type="text" id="titulo_modal">
+                  <small id="helpId" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group">
+                    <label for="">Nivel</label>
+                        <select  class="form-control"  id="valor_modal">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="9">9</option>
+                        </select>
+                    <small id="helpId" class="form-text text-muted">1:solo el primer nodo 2: color Naranja, 3:color azul, 4:color verde, 9:color negro</small>
+                  </div>
+                {{--  <input class="form-control" type="text" id="valor_modal">  --}}
+                <div class="form-group" id="codarticulomodal" hidden>
+                    <label for="">Cod Articulo</label>
+                    <input class="form-control" type="text" id="codarticulo_modal">
+                    <small id="helpId" class="form-text text-muted"></small>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="savemodal" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script>
+       $(document).on("click", ".editarbutton", function() {
+        var dataid=$(this).attr('dataid');
+        var texto=$(this).attr('texto');
+        var nivel=$(this).attr('nivel');
+        $("#titulo_modal").val(texto);
+        $("#valor_modal").val(nivel).change();
+        $("#dataid_modal").val(dataid);
+        if(nivel ==9){
+            var codarticulo= $(this).attr('codarticulo')
+            $("#codarticulomodal").removeAttr('hidden')
+            $("#codarticulo_modal").val(codarticulo)
+        }
+        else {
+            $("#codarticulomodal").attr('hidden','hidden')
+            $("#codarticulo_modal").val('')
+        }
+        $('#modelId').modal('show');
+       });
+       $(document).on("change", "#valor_modal", function() {
+
+        if($(this).val()==9){
+            $("#codarticulomodal").removeAttr('hidden')
+        }
+
        });
 
 
+       $(document).on("click", "#savemodal", function() {
 
+            var texto =$("#titulo_modal").val()
+         var nuevo = false;
+            var nivel =$("#valor_modal").val()
+            var codarticulo =$("#codarticulo_modal").val()
+            var iddiv= $("#div_"+$("#dataid_modal").val());
+            console.log(iddiv.length)
+            if(iddiv.length==0){
+                iddiv= $("#nuevo_"+$("#dataid_modal").val());
+                nuevo = true;
+            }
+            var p = iddiv.children('p')
+            var label =iddiv.children('label')
+            p.html(texto)
+            if(nivel=="2"){
+                p.attr('class', 'text-orange')
+            }
+            else if(nivel=="3"){
+                p.attr('class', 'text-primary')
+            }
+            else if(nivel!=9 && nivel >2){
+                p.attr('class', 'text-success')
+            }
+            if(nivel!=9){
+                label.html('')
+            }
+            if(codarticulo!='' && nivel==9 ){
 
+                label.html('Art. '+codarticulo)
+                iddiv.children('button').attr({'texto':texto,'nivel':nivel,'codarticulo':codarticulo,'nuevo':nuevo})
+            }
 
-       @if(isset($firstDescArt))
-       load_normalDiv("{{ $firstDescArt->descarticulo }}","#columna2","{{ $firstDescArt->codnorma }}","{{ $firstDescArt->id }}");
-       @endif
+            iddiv.children('button').attr({'texto':texto,'nivel':nivel,'nuevo':nuevo})
+       });
 
+var nuevocont=0;
+$(document).on("click", "#Rojo-alta", function() {
+    var titulo =$("#Rojo-titulo").val()
+    var valor =$("#valor_alta").val()
+    var art =$("#art_alta").val()
+    var classe ='';
+    if(titulo !=''){
+        if(valor=="2"){
+            classe= 'text-orange';
+        }
+        else if(valor=="3"){
+            classe= 'text-primary';
+        }
+        else if(valor!=9){
+            classe= 'text-success';
+        }
+        var contenido ='';
+        contenido+='<div class="portlet card border-0 rounded-0 shadow mb-2 " data-nivel="9">';
+            contenido+='<div class="card-body py-2 portlet-header form-check-inline">';
+               contenido+=' <div class="divcontenedor font-weight-bold w-100" id="nuevo_'+nuevocont+'">';
 
-
-
-        @foreach ($tematics as $key=> $tematic)
-
-        @if($key >0)
-            @if($tematic->nivel == 2)
-            pos=load_rojoDiv("{{ $tematic->descarticulo }}","#columna2","{{ $tematic->codnorma }}","{{ $tematic->id }}");
-            
-            last_rojo=pos;
-            last_azul=pos;
-            last_verde=pos;
-            @endif
-            {{--  @if($tematic->nivel > $firstLvl && $tematic->nivel < 9 && $firstLvl !== null)  --}}
-                @if($tematic->nivel==3)
-                pos_azul= load_azulDiv("{{ $tematic->descarticulo }}","#children_card_"+last_rojo,"{{ $tematic->codnorma }}","{{ $tematic->id }}");
-                last_azul=pos_azul;
-                last_verde=pos_azul;
-                @endif
-                @if($tematic->nivel==4)
-                last_verde= load_verdeDiv("{{ $tematic->descarticulo }}","#children_card_"+last_azul,"{{ $tematic->codnorma }}","{{ $tematic->id }}");
-                @endif
-
-            {{--  @endif  --}}
-            @if($tematic->nivel >= 9)
-            load_normalDiv("{{$tematic->descarticulo}}","#children_card_"+last_verde,"{{ $tematic->codnorma }}","{{ $tematic->id }}");
-
-            @endif
-
-        @endif
-
-        @endforeach
-        function load_rojoDiv(titulo,columna,codnorma='nuevo',nroorden='nuevo'){
-            card_cont++;
-
-            var contenido= '';
-            contenido+='<div class="portlet header-rojo" codnorma="'+codnorma+'"nroorden="'+nroorden+'" >';
-                contenido+='<div class="portlet-header blue darken-3 py-2 my-3 text-center white-text ">';
-                contenido+='<input type="text" class="form-control input-valor" value="'+titulo+'"><i class="fas fa-caret-down  ml-2 collapseButton" data-toggle="collapse" href="#card'+card_cont+'"></i></div>';
-                contenido+='<div class="portlet-content collapse text-center" id="card'+card_cont+'">';
-                contenido+='    <div class="col_Rojo_children" id="children_card_'+card_cont+'"></div>';
+                    contenido+='<label class="m-0 font-weight-bold text-dark " style="float:left;margin-right: 5px !important;padding-left: 0px !important;">';
+                       if(valor==9)
+                        contenido+='Art. '+art;
+                        contenido+='</label>';
+                    contenido+='<p class="m-0 font-weight-bold text-dark  '+classe+'" style="margin-left:4px !important">'+titulo+'</p>';
+                    contenido+='<button type="button" class="btn btn-primary float-right editarbutton" codarticulo="'+art+'" textaux="Art. '+art+'" dataid="'+nuevocont+'" nuevo="true" texto="'+titulo+'" nivel="'+valor+'">Editar</button>';
                 contenido+='</div>';
-              contenido+='</div>';
+            contenido+='</div>';
+        contenido+='</div>';
+        nuevocont++;
+        $("#Rojo-column").html($("#Rojo-column").html()+contenido)
+    }
+});
 
-            $(columna).html($(columna).html()+contenido);
-            return card_cont;
-        }
-        function load_azulDiv(titulo,columna,codnorma='nuevo',nroorden='nuevo'){
-            card_cont++;
-            var contenido= '';
-            contenido+='<div class="portlet header-azul" codnorma="'+codnorma+'"nroorden="'+nroorden+'" >';
-                contenido+='<div class="portlet-header blue darken-3 py-2 my-3 text-center white-text  " >';
-                contenido+='<input type="text" class="form-control input-valor" value="'+titulo+'"> <i class="fas fa-caret-down collapseButton ml-2" data-toggle="collapse"  href="#card'+card_cont+'"></i></div>';
-                contenido+='<div class="portlet-content collapse text-center" id="card'+card_cont+'">';
-                contenido+='    <div class="col_Azul_children" id="children_card_'+card_cont+'"></div>';
-                contenido+='</div>';
-              contenido+='</div>';
-            $(columna).html($(columna).html()+contenido);
-            return card_cont;
+        $(document).on("click", "#guardar-todo", function() {
 
-        }
-        function load_verdeDiv(titulo,columna,codnorma='nuevo',nroorden='nuevo'){
-            card_cont++;
-            var contenido= '';
-            contenido+='<div class="portlet header-verde" codnorma="'+codnorma+'"nroorden="'+nroorden+'" >';
-                contenido+='<div class="portlet-header blue darken-3 py-2 my-3 text-center white-text  " >';
-                    contenido+='<input type="text" class="form-control input-valor" value="'+titulo+'"> <i class="fas fa-caret-down collapseButton ml-2" data-toggle="collapse"  href="#card'+card_cont+'"></i></div>';
-                contenido+='<div class="portlet-content collapse text-center" id="card'+card_cont+'">';
-                contenido+='    <div class="col_Verde_children" id="children_card_'+card_cont+'"></div>';
-                contenido+='</div>';
-              contenido+='</div>';
-            $(columna).html($(columna).html()+contenido);
-            return card_cont;
+            var datos = new Array();
+            $(".col_Defecto ").children('.portlet').children('.card-body').children(".divcontenedor").children(".editarbutton").each(function( ind,valor ) {
 
-        }
-        function load_normalDiv(titulo,columna,codnorma='nuevo',nroorden='nuevo'){
-            card_cont++;
-            var contenido= '';
-            contenido='<div class="portlet"  codnorma="'+codnorma+'" nroorden="'+nroorden+'" ><div class="portlet-header" ><input type="text" class="form-control input-valor" value="'+titulo+'"></div></div>';
+            var dataid=$(valor).attr('dataid');
+            var texto=$(valor).attr('texto');
+            var nivel=$(valor).attr('nivel');
+            var nuevo=$(valor).attr('nuevo');
+            if(nuevo==undefined){
+                nuevo=false;
+            }
+            var codarticulo =$(valor).attr('codarticulo')
 
-            $(columna).html($(columna).html()+contenido);
-            return card_cont;
+            var da = {id:dataid,texto:texto,nivel:nivel,codarticulo:codarticulo,nuevo:nuevo,codnorma:'{{ $tematics[0]->codnorma }}' };
+            datos.push(da)
 
-        }
-         $(document).on("click", "#Rojo-alta", function() {
-            var titulo = $("#Rojo-titulo").val();
-            load_rojoDiv(titulo,"#Rojo-column","{{ $tematics[0]->codnorma }}");
-            loadall()
-         });
-
-         $(document).on("click", "#Azul-alta", function() {
-            var titulo = $("#Azul-titulo").val();
-            load_azulDiv(titulo,"#Azul-column","{{ $tematics[0]->codnorma }}");
-            loadall()
-         });
-         $(document).on("click", "#Verde-alta", function() {
-
-            var titulo = $("#Verde-titulo").val();
-            load_verdeDiv(titulo,"#Verde-column","{{ $tematics[0]->codnorma }}");
-            loadall()
-         });
-         $(document).on("click", "#Normal-alta", function() {
-
-            var titulo = $("#Normal-titulo").val();
-            //
-            var contenido= '';
-            load_normalDiv(titulo,"#Normal-column","{{ $tematic->codnorma }}");
-            loadall()
-         });
+            });
+            console.log(datos)
+            $.ajax({
+                url: "{{ route('post.updatecodoFinales') }}",
+                method: 'POST',
+                data:{
+                    datos:JSON.stringify(datos)
+                },
+                success: function(respuesta){
+                  console.log(respuesta)
+                  if(respuesta=="true"){
+                      alert('Se han guardado los cambios. la pagina se volvera a cargar');
+                      location.reload();
+                  }
+                  else{
+                      alert('Ha ocurrido un error,vuelva a intentarlo mas tarde. ');
+                  }
+                }
+            });
+        });
 
 
 
-         loadall()
-        function loadall() {
-            $( ".col_Defecto" ).sortable({
-            connectWith: arrays,
+
+
+
+       $( ".col_Defecto" ).sortable({
+        connectWith: ['.col_Rojo'],
+        handle: ".portlet-header",
+        cancel: ".portlet-toggle",
+        placeholder: "drop-placeholder"
+        });
+        $( ".col_Rojo" ).sortable({
+            connectWith: ['.col_Defecto'],
             handle: ".portlet-header",
             cancel: ".portlet-toggle",
             placeholder: "drop-placeholder"
             });
-            $( ".col_Normal" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-                });
-            $( ".col_Rojo" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-            });
-            $( ".col_Verde" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-            });
-            $( ".col_Azul" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-            });
-            $( ".col_Rojo_children" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-                });
-            $( ".col_Azul_children" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-                });
-            $( ".col_Verde_children" ).sortable({
-                connectWith: arrays,
-                handle: ".portlet-header",
-                cancel: ".portlet-toggle",
-                placeholder: "drop-placeholder"
-                });
-        };
-
     </script>
 
 @stop

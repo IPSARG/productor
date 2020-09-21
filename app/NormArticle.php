@@ -12,6 +12,7 @@ class NormArticle extends Model
     protected $connection = 'mysql';
     protected $table = 'trvarticulonorma';
     // protected $primaryKey = 'id';
+    protected $fillable = ['id','codnorma', 'nroorden', 'codarticulo','descarticulo','voces','nivel','bold'];
     public $timestamps = false;
     // public $incrementing = false;
 }

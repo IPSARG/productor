@@ -117,7 +117,7 @@ class DispatchController extends Controller
             $firstDescArt = $first;
         }
 
-        dd($tematics->take(15),$firstDescArt);
+        // dd($tematics->take(15),$firstDescArt);
         // RETRIEVE FIRST NUMBER BIGGER THEN 0 BUT SMALLER THEN 9 (IN ORDER TO COMPARE IN VIEW)
         $firstLvl = null;
         foreach ($tematics as $tematic) {
@@ -133,7 +133,7 @@ class DispatchController extends Controller
             }
         }
         // dd($firstDescArt,$tematics->where('nivel','!=',0)->take(10),$firstLvl);
-        $firstLvl=1;
+        // $firstLvl=1;
         // dd($firstDescArt,$firstLvl);
 
         $count = 0;

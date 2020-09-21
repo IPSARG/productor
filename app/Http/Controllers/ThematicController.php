@@ -211,7 +211,7 @@ class ThematicController extends Controller
         $query_two = DB::table($tableInd)->whereIn('cod_padre', $hijos1)->orWhereIn('cod_hijo', $hijos1)->get();
 
 
-        dd($query_one,$query_two);
+        // dd($query_one,$query_two);
         // chequeo si los hijos de la segunda query son padres
         if(isset($query_two))
         foreach ($query_two as $two)
@@ -263,58 +263,46 @@ class ThematicController extends Controller
         return redirect()->back()->with('alert-message', ['message' => 'Nodo eliminado con éxito', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
     }
 
-    public function Asignacion_hijos($dato,$pos){
 
-        foreach($dato->hijos as $key=> $hijo){
-            $hijo = (object)$hijo;
-            $norma=   NormArticle::find($hijo->nroorden);
-            if($norma==null || $dato->nroorden=='nuevo'){
-                $norma = new NormArticle();
-            }
-            $norma->codnorma =$hijo->codnorma;
-            $norma->nivel =$hijo->color;
-            $norma->descarticulo =$hijo->texto;
-            $norma->nroorden =$pos;
-            $norma->save();
-            $pos +=1;
-            // falta  preguntar si no existe y crear la norma en caso de que no exista.
-            if(isset($hijo->hijos)){
-              $pos= $this->Asignacion_hijos($hijo,$pos);
-            }
-        }
-        return $pos;
-    }
     public function updatecodoFinales(Request $re){
         // dd($codnorma,$nroorden);
+        // dd($re->datos);
+        $datos = [];
+        if(isset($re->datos))
+        $datos= json_decode($re->datos);
         $pos=1;
-        foreach($re->datos as $key=> $dato){
-            $dato = (object)$dato;
-          $norma=  NormArticle::find($dato->nroorden);
-          if($norma==null || $dato->nroorden=="nuevo"){
-            $norma = new NormArticle();
-        }
-        // dd($norma);
-          if($key==0){
-            //   dd($norma,$dato);
-            $norma->nivel =1;
-          }
-          else {
-            $norma->nivel =$dato->color;
-          }
-          $norma->descarticulo =$dato->texto;
-          $norma->codnorma =$dato->codnorma;
-          $norma->nroorden =$pos;
-        //   dd($norma);
-          $norma->save();
-          if($dato->texto== "Sistema Integrado de Aplicaciones - SIAP" )
-        //   dd($norma);
-          $pos++;
-          if(isset($dato->hijos)){
-            $pos= $this->Asignacion_hijos($dato,$pos);
-        }
-        }
+        // dd($datos);
+        $ids=[];
+        foreach($datos as $key=> $dato){
+            $dato = (array)$dato;
+            $norma=  NormArticle::find($dato['id']);
+            if($norma == null || $dato['nuevo']==true){
+                $norma= new NormArticle();
+            }
+            // dd($norma,$dato);
+            // dd($dato['texto']);
+            try {
+                $norma->descarticulo=$dato['texto'];
+                $norma->nivel=$dato['nivel'];
+                $norma->nroorden=$pos;
+                if(isset($dato['codarticulo']))
+                $norma->codarticulo=$dato['codarticulo'];
+                $norma->codnorma=$dato['codnorma'];
+                $norma->save();
+                $ids[]=$norma->id;
+                $pos++;
 
-        return 'Nodos actualizados correctamente.';
+            } catch (\Throwable $th) {
+                dd($dato,$key, $re->datos[$key],$th);
+
+                //throw $th;
+            }
+
+        }
+        if(count($ids)>0){
+            NormArticle::whereNotIn('id',$ids)->where('codnorma',$datos[0]->codnorma)->delete();
+        }
+        return "true";
 //        return redirect()->back()->with('alert-message', ['message' => 'No se encontro el nodo', 'alert-class' => 'bg-warning text-white', 'alert-type' => 'alert-fixed']);
 
 

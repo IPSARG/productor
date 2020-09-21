@@ -16,11 +16,13 @@ use App\DocumentType;
 use App\Jurisdiction;
 use Illuminate\Http\Request;
 use Storage;
+use Artisan;
 
 class NumericController extends Controller
 {
 
     public function TESTING(Request $re){
+        Artisan::call('cache:clear ');
         dd($re->all());
     }
     public function index()
